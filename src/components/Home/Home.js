@@ -19,265 +19,395 @@ function Home() {
   }, []);
 
   return (
-    <section>
+    <section className="home-wrapper">
       <Container fluid className="home-section" id="home">
         <Particle />
         <Container className="home-content">
-          <Row className="align-items-center min-vh-100">
-            <Col md={7} className="home-header">
-              {/* Animated Main Greeting */}
-              <div 
-                className={`hero-greeting ${isLoaded ? 'animate-fade-slide-up' : ''}`}
-                style={{ animationDelay: '0.2s' }}
-              >
-                <h1 style={{ paddingBottom: 15 }} className="heading">
-                  Hi There!{" "}
-                  <span 
-                    className={`wave ${isLoaded ? 'animate-wave' : ''}`}
-                    role="img" 
-                    aria-labelledby="wave"
-                    style={{ animationDelay: '1s' }}
+          {/* FIXED: Removed min-vh-100 and updated classes */}
+          <div className="home-container">
+            <Row className="align-items-center home-row">
+              <Col md={7} className="home-header">
+                {/* Animated Main Greeting */}
+                <div 
+                  className={`hero-greeting ${isLoaded ? 'animate-fade-slide-up' : ''}`}
+                  style={{ animationDelay: '0.2s' }}
+                >
+                  <h1 className="heading">
+                    Hi There!{" "}
+                    <span 
+                      className={`wave ${isLoaded ? 'animate-wave' : ''}`}
+                      role="img" 
+                      aria-labelledby="wave"
+                      style={{ animationDelay: '1s' }}
+                    >
+                      👋🏻
+                    </span>
+                  </h1>
+
+                  <h1 className="heading-name">
+                    I'M
+                    <strong className="main-name"> PARTH MAHENDRA PURI</strong>
+                  </h1>
+                </div>
+
+                {/* Animated Typewriter */}
+                <div 
+                  className={`type-container ${isLoaded ? 'animate-fade-slide-up' : ''}`}
+                  style={{ animationDelay: '0.4s' }}
+                >
+                  <Type />
+                </div>
+
+                {/* Animated Hero Description */}
+                <div 
+                  className={`hero-description ${isLoaded ? 'animate-fade-slide-up' : ''}`}
+                  style={{ animationDelay: '0.6s' }}
+                >
+                  <p className="hero-main-text">
+                    Building production-grade <span className="highlight">AI systems</span> that transform complex problems into intelligent solutions.
+                  </p>
+                  
+                  <p className="hero-sub-text">
+                    Specialized in <span className="highlight">Generative AI</span>, 
+                    <span className="highlight"> Agentic AI</span>, and 
+                    <span className="highlight"> Large Language Models</span>
+                  </p>
+
+                  {/* Animated AI Focus Badge */}
+                  <div 
+                    className={`ai-badge ${isLoaded ? 'animate-glow-bounce' : ''}`}
+                    style={{ animationDelay: '1.2s' }}
                   >
-                    👋🏻
-                  </span>
-                </h1>
-
-                <h1 className="heading-name">
-                  I'M
-                  <strong className="main-name"> PARTH MAHENDRA PURI</strong>
-                </h1>
-              </div>
-
-              {/* Animated Typewriter */}
-              <div 
-                className={`${isLoaded ? 'animate-fade-slide-up' : ''}`}
-                style={{ 
-                  padding: "50px 50px 30px 50px", 
-                  textAlign: "left",
-                  animationDelay: '0.4s'
-                }}
-              >
-                <Type />
-              </div>
-
-              {/* Animated Hero Description */}
-              <div 
-                className={`hero-description ${isLoaded ? 'animate-fade-slide-up' : ''}`}
-                style={{ 
-                  paddingLeft: 50,
-                  paddingRight: 20,
-                  textAlign: "left",
-                  marginBottom: "40px",
-                  animationDelay: '0.6s'
-                }}
-              >
-                <p style={{ 
-                  fontSize: "1.3em", 
-                  color: "rgba(255, 255, 255, 0.9)",
-                  lineHeight: "1.7",
-                  maxWidth: "650px",
-                  marginBottom: "20px",
-                  fontWeight: "400"
-                }}>
-                  Building production-grade <span style={{ color: "#c770f0", fontWeight: "600" }}>AI systems</span> that transform complex problems into intelligent solutions.
-                </p>
-                
-                <p style={{ 
-                  fontSize: "1.1em", 
-                  color: "rgba(255, 255, 255, 0.8)",
-                  lineHeight: "1.6",
-                  maxWidth: "600px",
-                  marginBottom: "25px"
-                }}>
-                  Specialized in <span style={{ color: "#c770f0", fontWeight: "500" }}>Generative AI</span>, 
-                  <span style={{ color: "#c770f0", fontWeight: "500" }}> Agentic AI</span>, and 
-                  <span style={{ color: "#c770f0", fontWeight: "500" }}> Large Language Models</span>
-                </p>
-
-                {/* Animated AI Focus Badge */}
-                <div 
-                  className={`ai-badge ${isLoaded ? 'animate-glow-bounce' : ''}`}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    background: "linear-gradient(135deg, rgba(199, 112, 240, 0.1) 0%, rgba(199, 112, 240, 0.05) 100%)",
-                    border: "1px solid rgba(199, 112, 240, 0.3)",
-                    borderRadius: "25px",
-                    padding: "12px 24px",
-                    marginTop: "10px",
-                    animationDelay: '1.2s'
-                  }}
-                >
-                  <span style={{
-                    fontSize: "0.9em",
-                    color: "#c770f0",
-                    fontWeight: "600",
-                    letterSpacing: "0.5px"
-                  }}>
-                    🤖 AI EVERYWHERE
-                  </span>
+                    <span className="badge-text">
+                      🤖 AI EVERYWHERE
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Animated Stats Section */}
-              <div 
-                className={`hero-stats ${isLoaded ? 'animate-stagger-up' : ''}`}
-                style={{
-                  paddingLeft: 50,
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "25px",
-                  marginTop: "20px"
-                }}
-              >
+                {/* Animated Stats Section */}
                 <div 
-                  className={`stat-item ${isLoaded ? 'animate-scale-in' : ''}`}
-                  style={{
-                    textAlign: "center",
-                    minWidth: "120px",
-                    animationDelay: '0.8s'
-                  }}
+                  className={`hero-stats ${isLoaded ? 'animate-stagger-up' : ''}`}
                 >
-                  <div style={{
-                    fontSize: "1.5em",
-                    color: "#c770f0",
-                    fontWeight: "bold",
-                    marginBottom: "5px"
-                  }}>Python</div>
-                  <div style={{
-                    fontSize: "0.9em",
-                    color: "rgba(255, 255, 255, 0.7)"
-                  }}>Primary Language</div>
+                  <div 
+                    className={`stat-item ${isLoaded ? 'animate-scale-in' : ''}`}
+                    style={{ animationDelay: '0.8s' }}
+                  >
+                    <div className="stat-value">Python</div>
+                    <div className="stat-label">Primary Language</div>
+                  </div>
+                  
+                  <div 
+                    className={`stat-item ${isLoaded ? 'animate-scale-in' : ''}`}
+                    style={{ animationDelay: '1.0s' }}
+                  >
+                    <div className="stat-value">FastAPI</div>
+                    <div className="stat-label">Microservices</div>
+                  </div>
+
+                  <div 
+                    className={`stat-item ${isLoaded ? 'animate-scale-in' : ''}`}
+                    style={{ animationDelay: '1.2s' }}
+                  >
+                    <div className="stat-value">LLMs</div>
+                    <div className="stat-label">Integration Expert</div>
+                  </div>
                 </div>
+              </Col>
+
+              {/* Fixed Image Column with Proper Alignment */}
+              <Col 
+                md={5} 
+                className={`home-logo-col ${isLoaded ? 'animate-slide-from-right' : ''}`}
+                style={{ animationDelay: '0.3s' }}
+              >
+                {/* Animated Floating Elements */}
+                <div 
+                  className={`floating-element-1 ${isLoaded ? 'animate-float-delayed' : ''}`}
+                  style={{ animationDelay: '1.5s' }}
+                />
                 
                 <div 
-                  className={`stat-item ${isLoaded ? 'animate-scale-in' : ''}`}
-                  style={{
-                    textAlign: "center",
-                    minWidth: "120px",
-                    animationDelay: '1.0s'
-                  }}
-                >
-                  <div style={{
-                    fontSize: "1.5em",
-                    color: "#c770f0",
-                    fontWeight: "bold",
-                    marginBottom: "5px"
-                  }}>FastAPI</div>
-                  <div style={{
-                    fontSize: "0.9em",
-                    color: "rgba(255, 255, 255, 0.7)"
-                  }}>Microservices</div>
+                  className={`floating-element-2 ${isLoaded ? 'animate-float-delayed' : ''}`}
+                  style={{ animationDelay: '1.8s' }}
+                />
+
+                {/* Main Animated Image Container */}
+                <div className={`main-image-container ${isLoaded ? 'animate-zoom-in' : ''}`}>
+                  <Tilt 
+                    tiltMaxAngleX={12}
+                    tiltMaxAngleY={12}
+                    perspective={1000}
+                    scale={1.08}
+                    transitionSpeed={2500}
+                    gyroscope={true}
+                    glareEnable={true}
+                    glareMaxOpacity={0.1}
+                    glareColor="#c770f0"
+                    glarePosition="all"
+                  >
+                    <img
+                      src={homeLogo}
+                      alt="AI Engineering & Machine Learning"
+                      className="img-fluid hero-image"
+                    />
+                  </Tilt>
                 </div>
-
-                <div 
-                  className={`stat-item ${isLoaded ? 'animate-scale-in' : ''}`}
-                  style={{
-                    textAlign: "center",
-                    minWidth: "120px",
-                    animationDelay: '1.2s'
-                  }}
-                >
-                  <div style={{
-                    fontSize: "1.5em",
-                    color: "#c770f0",
-                    fontWeight: "bold",
-                    marginBottom: "5px"
-                  }}>LLMs</div>
-                  <div style={{
-                    fontSize: "0.9em",
-                    color: "rgba(255, 255, 255, 0.7)"
-                  }}>Integration Expert</div>
-                </div>
-              </div>
-            </Col>
-
-            {/* Animated Visual Column */}
-            <Col 
-              md={5} 
-              className={`homeLogo ${isLoaded ? 'animate-slide-from-right' : ''}`}
-              style={{ 
-                paddingBottom: 20, 
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-                animationDelay: '0.3s'
-              }}
-            >
-              {/* Animated Floating Elements */}
-              <div 
-                className={`floating-element-1 ${isLoaded ? 'animate-float-delayed' : ''}`}
-                style={{
-                  position: "absolute",
-                  top: "10%",
-                  right: "10%",
-                  width: "60px",
-                  height: "60px",
-                  background: "linear-gradient(135deg, #c770f0, #9c27b0)",
-                  borderRadius: "50%",
-                  opacity: "0.1",
-                  animationDelay: '1.5s'
-                }}
-              />
-              
-              <div 
-                className={`floating-element-2 ${isLoaded ? 'animate-float-delayed' : ''}`}
-                style={{
-                  position: "absolute",
-                  bottom: "15%",
-                  left: "5%",
-                  width: "40px",
-                  height: "40px",
-                  background: "linear-gradient(135deg, #00d4ff, #0099cc)",
-                  borderRadius: "50%",
-                  opacity: "0.1",
-                  animationDelay: '1.8s'
-                }}
-              />
-
-              {/* Main Animated Image */}
-              <div className={`main-image-container ${isLoaded ? 'animate-zoom-in' : ''}`}>
-                <Tilt 
-                  tiltMaxAngleX={12}
-                  tiltMaxAngleY={12}
-                  perspective={1000}
-                  scale={1.08}
-                  transitionSpeed={2500}
-                  gyroscope={true}
-                  glareEnable={true}
-                  glareMaxOpacity={0.1}
-                  glareColor="#c770f0"
-                  glarePosition="all"
-                >
-                  <img
-                    src={homeLogo}
-                    alt="AI Engineering & Machine Learning"
-                    className="img-fluid hero-image"
-                    style={{ 
-                      maxHeight: "500px",
-                      filter: "drop-shadow(0px 15px 35px rgba(199, 112, 240, 0.4))",
-                      borderRadius: "20px",
-                      transition: "all 0.3s ease"
-                    }}
-                  />
-                </Tilt>
-              </div>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+          </div>
         </Container>
       </Container>
       <Home2 />
 
-      {/* Enhanced CSS Animations */}
+      {/* Fixed CSS with Proper Alignment */}
       <style jsx>{`
+        /* Base Section */
+        .home-wrapper {
+          position: relative;
+          width: 100%;
+          max-width: 100vw;
+          overflow-x: hidden;
+        }
+
+        .home-section {
+          position: relative;
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+          width: 100%;
+          max-width: 100vw;
+          overflow-x: hidden;
+          padding: 0 !important;
+        }
+
+        .home-content {
+          width: 100%;
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 120px 15px 60px 15px;
+        }
+
+        /* FIXED: New container for proper alignment */
+        .home-container {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 40px 0;
+        }
+
+        /* FIXED: Row alignment */
+        .home-row {
+          width: 100%;
+          margin: 0;
+          display: flex !important;
+          align-items: center !important;
+          flex-wrap: nowrap !important;
+        }
+
+        /* FIXED: Column alignment */
+        .home-header {
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .home-logo-col {
+          padding: 20px;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          position: relative;
+        }
+
         /* Initial states - hidden before animation */
         .hero-greeting,
         .hero-description,
         .hero-stats,
-        .homeLogo,
+        .home-logo-col,
         .main-image-container {
           opacity: 0;
+        }
+
+        /* Typography with Zoom-Responsive Sizing */
+        .heading {
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 15px;
+          line-height: 1.2;
+        }
+
+        .heading-name {
+          font-size: clamp(1.8rem, 4.5vw, 3rem);
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 30px;
+          line-height: 1.2;
+        }
+
+        .main-name {
+          background: linear-gradient(135deg, #c770f0, #9c27b0);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        /* Type Container */
+        .type-container {
+          padding: clamp(30px, 5vw, 50px) clamp(20px, 5vw, 50px) clamp(20px, 3vw, 30px) clamp(20px, 5vw, 50px);
+          text-align: left;
+        }
+
+        /* Hero Description with Responsive Text */
+        .hero-description {
+          padding: 0 clamp(20px, 5vw, 50px);
+          text-align: left;
+          margin-bottom: clamp(30px, 5vw, 40px);
+          max-width: 100%;
+        }
+
+        .hero-main-text {
+          font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+          color: rgba(255, 255, 255, 0.9);
+          line-height: 1.7;
+          max-width: clamp(500px, 80vw, 650px);
+          margin-bottom: 20px;
+          font-weight: 400;
+        }
+
+        .hero-sub-text {
+          font-size: clamp(1rem, 2vw, 1.1rem);
+          color: rgba(255, 255, 255, 0.8);
+          line-height: 1.6;
+          max-width: clamp(450px, 75vw, 600px);
+          margin-bottom: 25px;
+        }
+
+        .highlight {
+          color: #c770f0;
+          font-weight: 600;
+        }
+
+        /* AI Badge with Zoom-Responsive Size */
+        .ai-badge {
+          display: inline-flex;
+          align-items: center;
+          background: linear-gradient(135deg, rgba(199, 112, 240, 0.1) 0%, rgba(199, 112, 240, 0.05) 100%);
+          border: 1px solid rgba(199, 112, 240, 0.3);
+          border-radius: 25px;
+          padding: clamp(10px, 2vw, 12px) clamp(18px, 3vw, 24px);
+          margin-top: 10px;
+        }
+
+        .badge-text {
+          font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+          color: #c770f0;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+        }
+
+        /* Stats Section with Better Layout */
+        .hero-stats {
+          padding-left: clamp(20px, 5vw, 50px);
+          display: flex;
+          flex-wrap: wrap;
+          gap: clamp(15px, 3vw, 25px);
+          margin-top: 20px;
+          justify-content: flex-start;
+        }
+
+        .stat-item {
+          text-align: center;
+          min-width: clamp(100px, 15vw, 120px);
+          flex: 0 1 auto;
+          transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+          transform: translateY(-5px) scale(1.05);
+        }
+
+        .stat-value {
+          font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+          color: #c770f0;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+
+        .stat-label {
+          font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* FIXED: Image Container with Proper Constraints */
+        .main-image-container {
+          width: 100%;
+          max-width: 450px;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          z-index: 2;
+        }
+
+        .hero-image {
+          max-height: clamp(300px, 35vw, 450px);
+          max-width: 100%;
+          width: auto;
+          height: auto;
+          filter: drop-shadow(0px 15px 35px rgba(199, 112, 240, 0.4));
+          border-radius: 20px;
+          transition: all 0.3s ease;
+        }
+
+        .hero-image:hover {
+          filter: drop-shadow(0px 20px 40px rgba(199, 112, 240, 0.6));
+          transform: scale(1.05);
+        }
+
+        /* Floating Elements with Constraints */
+        .floating-element-1 {
+          position: absolute;
+          top: 10%;
+          right: 10%;
+          width: clamp(40px, 8vw, 60px);
+          height: clamp(40px, 8vw, 60px);
+          background: linear-gradient(135deg, #c770f0, #9c27b0);
+          border-radius: 50%;
+          opacity: 0.1;
+          z-index: 1;
+        }
+
+        .floating-element-2 {
+          position: absolute;
+          bottom: 15%;
+          left: 5%;
+          width: clamp(30px, 6vw, 40px);
+          height: clamp(30px, 6vw, 40px);
+          background: linear-gradient(135deg, #00d4ff, #0099cc);
+          border-radius: 50%;
+          opacity: 0.1;
+          z-index: 1;
+        }
+
+        /* Wave Animation */
+        .wave {
+          display: inline-block;
+          font-size: 1em;
+        }
+
+        .animate-wave {
+          animation: wave 2.5s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+          0%, 100% { transform: rotate(0deg); }
+          10%, 30% { transform: rotate(14deg); }
+          20% { transform: rotate(-8deg); }
+          40% { transform: rotate(14deg); }
+          50% { transform: rotate(10deg); }
+          60% { transform: rotate(0deg); }
         }
 
         /* Fade and slide up animation */
@@ -367,20 +497,6 @@ function Home() {
           }
         }
 
-        /* Wave animation */
-        .animate-wave {
-          animation: wave 2.5s ease-in-out infinite;
-        }
-
-        @keyframes wave {
-          0%, 100% { transform: rotate(0deg); }
-          10%, 30% { transform: rotate(14deg); }
-          20% { transform: rotate(-8deg); }
-          40% { transform: rotate(14deg); }
-          50% { transform: rotate(10deg); }
-          60% { transform: rotate(0deg); }
-        }
-
         /* Floating elements with delayed start */
         .animate-float-delayed {
           animation: floatDelayed 6s ease-in-out infinite;
@@ -413,63 +529,96 @@ function Home() {
           }
         }
 
-        /* Enhanced existing animations */
-        .hero-image:hover {
-          filter: drop-shadow(0px 20px 40px rgba(199, 112, 240, 0.6)) !important;
-          transform: scale(1.05);
-          transition: all 0.4s ease;
-        }
-        
-        .stat-item:hover {
-          transform: translateY(-5px) scale(1.05);
-          transition: all 0.3s ease;
-        }
-
-        .stat-item {
-          transition: all 0.3s ease;
-        }
-
-        /* Responsive animations */
-        @media (max-width: 768px) {
-          .hero-stats {
-            justify-content: center !important;
-            padding-left: 0 !important;
-            margin-top: 30px !important;
+        /* FIXED: Desktop Layout */
+        @media (min-width: 768px) {
+          .home-row {
+            flex-direction: row !important;
           }
           
-          .hero-description {
-            padding-left: 20px !important;
-            padding-right: 20px !important;
-            text-align: center !important;
+          .home-header {
+            flex: 0 0 58.333333% !important;
+            max-width: 58.333333% !important;
           }
-
-          /* Reduce animation intensity on mobile */
-          @keyframes fadeSlideUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          @keyframes slideFromRight {
-            from {
-              opacity: 0;
-              transform: translateX(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+          
+          .home-logo-col {
+            flex: 0 0 41.666667% !important;
+            max-width: 41.666667% !important;
           }
         }
 
-        /* Smooth scroll behavior */
-        html {
-          scroll-behavior: smooth;
+        /* Tablet Responsive */
+        @media (max-width: 767.98px) {
+          .home-container {
+            padding: 20px 0;
+            min-height: auto;
+          }
+
+          .home-row {
+            flex-direction: column !important;
+            text-align: center;
+          }
+
+          .home-header {
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
+          }
+
+          .home-logo-col {
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
+            order: -1;
+            margin-bottom: 30px;
+          }
+
+          .hero-description,
+          .type-container,
+          .hero-stats {
+            padding-left: 20px;
+            padding-right: 20px;
+            text-align: center;
+          }
+
+          .hero-stats {
+            justify-content: center;
+            margin-top: 30px;
+          }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 576px) {
+          .home-content {
+            padding: 100px 10px 40px 10px;
+          }
+
+          .hero-description {
+            text-align: center;
+            padding: 0 15px;
+          }
+
+          .hero-stats {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding-left: 15px;
+            padding-right: 15px;
+          }
+
+          .stat-item {
+            width: 100%;
+            max-width: 200px;
+          }
+
+          .floating-element-1,
+          .floating-element-2 {
+            display: none;
+          }
+        }
+
+        /* High DPI Screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+          .hero-image {
+            image-rendering: -webkit-optimize-contrast;
+          }
         }
 
         /* Reduced motion for accessibility */
@@ -479,6 +628,14 @@ function Home() {
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
+        }
+
+        /* Force hardware acceleration for smooth animations */
+        .hero-image,
+        .stat-item,
+        .ai-badge {
+          backface-visibility: hidden;
+          transform: translateZ(0);
         }
       `}</style>
     </section>

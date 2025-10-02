@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../Assets/Logo.png";
-import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 import { CgGitFork } from "react-icons/cg";
 import {
   AiFillStar,
@@ -15,521 +12,505 @@ import {
 import { CgFileDocument } from "react-icons/cg";
 
 function NavBar() {
-  const [expand, updateExpanded] = useState(false);
-  const [navColour, updateNavbar] = useState(false);
+  const [expand, setExpand] = useState(false);
+  const [navColour, setNavColour] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    // Trigger navbar animation on load
+    // Close mobile menu on route change
+    setExpand(false);
+  }, [location]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 100);
 
-    return () => clearTimeout(timer);
-  }, []);
+    const scrollHandler = () => {
+      if (window.scrollY >= 20) {
+        setNavColour(true);
+      } else {
+        setNavColour(false);
+      }
+    };
 
-  function scrollHandler() {
-    if (window.scrollY >= 20) {
-      updateNavbar(true);
-    } else {
-      updateNavbar(false);
-    }
-  }
-
-  // Add scroll listener
-  useEffect(() => {
     window.addEventListener("scroll", scrollHandler);
-    return () => window.removeEventListener("scroll", scrollHandler);
+    
+    return () => {
+      window.removeEventListener("scroll", scrollHandler);
+      clearTimeout(timer);
+    };
   }, []);
 
-  const handleNavClick = () => {
-    updateExpanded(false);
+  // Handle mobile menu toggle
+  const handleToggle = () => {
+    setExpand(!expand);
+  };
+
+  // Close mobile menu
+  const closeMobileMenu = () => {
+    setExpand(false);
   };
 
   return (
-    <Navbar
-      expanded={expand}
-      fixed="top"
-      expand="md"
-      className={`modern-navbar ${navColour ? "navbar-scrolled" : ""} ${
-        isLoaded ? "animate-slide-down" : ""
-      }`}
-    >
-      <Container>
-        {/* Animated Logo */}
-        <Navbar.Brand
-          as={Link}
-          to="/"
-          className={`brand-container ${isLoaded ? "animate-logo" : ""}`}
-        >
-          <div className="logo-wrapper">
-            <img src={logo} className="img-fluid navbar-logo" alt="Parth Puri - AI Engineer" />
-            <div className="logo-glow"></div>
-          </div>
-        </Navbar.Brand>
+    <>
+      <Navbar
+        expanded={expand}
+        fixed="top"
+        expand="lg"
+        variant="dark"
+        className={`custom-navbar ${navColour ? "scrolled" : ""} ${
+          isLoaded ? "loaded" : ""
+        }`}
+      >
+        <Container fluid>
+          {/* Logo Brand */}
+          <Navbar.Brand as={Link} to="/" className="navbar-brand-custom" onClick={closeMobileMenu}>
+            <img src={logo} alt="Parth Puri" className="navbar-logo" />
+          </Navbar.Brand>
 
-        {/* Custom Animated Toggle */}
-        <Navbar.Toggle
-          aria-controls="responsive-navbar-nav"
-          className="custom-toggler"
-          onClick={() => {
-            updateExpanded(expand ? false : "expanded");
-          }}
-        >
-          <div className={`hamburger ${expand ? "active" : ""}`}>
-            <span className="line line-1"></span>
-            <span className="line line-2"></span>
-            <span className="line line-3"></span>
-          </div>
-        </Navbar.Toggle>
+          {/* Mobile Toggle Button */}
+          <Navbar.Toggle 
+            aria-controls="basic-navbar-nav" 
+            onClick={handleToggle}
+            className="custom-toggle"
+          >
+            <div className={`hamburger-menu ${expand ? "open" : ""}`}>
+              <div className="bar bar1"></div>
+              <div className="bar bar2"></div>
+              <div className="bar bar3"></div>
+            </div>
+          </Navbar.Toggle>
 
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className={`ms-auto nav-links ${isLoaded ? "animate-nav-items" : ""}`}>
-            <Nav.Item className="nav-item-animated">
-              <Nav.Link
-                as={Link}
-                to="/"
-                onClick={handleNavClick}
-                className="nav-link-modern"
-                style={{ animationDelay: '0.1s' }}
+          {/* Navigation Menu */}
+          <Navbar.Collapse id="basic-navbar-nav" className={expand ? "show" : ""}>
+            <Nav className="ms-auto align-items-center">
+              <Nav.Link 
+                as={Link} 
+                to="/" 
+                onClick={closeMobileMenu}
+                className="nav-link-custom"
               >
                 <AiOutlineHome className="nav-icon" />
                 <span className="nav-text">Home</span>
-                <div className="nav-underline"></div>
               </Nav.Link>
-            </Nav.Item>
 
-            <Nav.Item className="nav-item-animated">
-              <Nav.Link
-                as={Link}
-                to="/about"
-                onClick={handleNavClick}
-                className="nav-link-modern"
-                style={{ animationDelay: '0.2s' }}
+              <Nav.Link 
+                as={Link} 
+                to="/about" 
+                onClick={closeMobileMenu}
+                className="nav-link-custom"
               >
                 <AiOutlineUser className="nav-icon" />
                 <span className="nav-text">About</span>
-                <div className="nav-underline"></div>
               </Nav.Link>
-            </Nav.Item>
 
-            <Nav.Item className="nav-item-animated">
-              <Nav.Link
-                as={Link}
-                to="/project"
-                onClick={handleNavClick}
-                className="nav-link-modern"
-                style={{ animationDelay: '0.3s' }}
+              <Nav.Link 
+                as={Link} 
+                to="/project" 
+                onClick={closeMobileMenu}
+                className="nav-link-custom"
               >
                 <AiOutlineFundProjectionScreen className="nav-icon" />
                 <span className="nav-text">Projects</span>
-                <div className="nav-underline"></div>
               </Nav.Link>
-            </Nav.Item>
 
-            <Nav.Item className="nav-item-animated">
-              <Nav.Link
-                as={Link}
-                to="/resume"
-                onClick={handleNavClick}
-                className="nav-link-modern"
-                style={{ animationDelay: '0.4s' }}
+              <Nav.Link 
+                as={Link} 
+                to="/resume" 
+                onClick={closeMobileMenu}
+                className="nav-link-custom"
               >
                 <CgFileDocument className="nav-icon" />
                 <span className="nav-text">Resume</span>
-                <div className="nav-underline"></div>
               </Nav.Link>
-            </Nav.Item>
 
-            <Nav.Item className={`fork-btn nav-item-animated ${isLoaded ? "animate-button" : ""}`}>
-              <Button
-                href="https://github.com/ppaarxx"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="github-btn"
-                style={{ animationDelay: '0.5s' }}
-              >
-                <CgGitFork className="fork-icon" />
-                <AiFillStar className="star-icon" />
-                <span className="btn-text">GitHub</span>
-                <div className="btn-shine"></div>
-              </Button>
-            </Nav.Item>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
+              <Nav.Item className="github-nav-item">
+                <Button
+                  as="a"
+                  href="https://github.com/ppaarxx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="github-button"
+                  onClick={closeMobileMenu}
+                >
+                  <CgGitFork className="github-icon" />
+                  <AiFillStar className="github-icon" />
+                  <span>GitHub</span>
+                </Button>
+              </Nav.Item>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 
-      {/* Enhanced CSS Styles with Animations */}
-      <style jsx>{`
-        /* Base Navbar Styles */
-        .modern-navbar {
+      {/* Mobile Menu Overlay */}
+      {expand && <div className="mobile-overlay" onClick={closeMobileMenu}></div>}
+
+      <style jsx global>{`
+        /* Reset and Base Styles */
+        .custom-navbar {
           background: rgba(10, 10, 10, 0.95) !important;
           backdrop-filter: blur(20px);
           border-bottom: 1px solid rgba(199, 112, 240, 0.1);
-          padding: 15px 0;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          padding: 1rem 0 !important;
+          transition: all 0.3s ease;
           opacity: 0;
           transform: translateY(-100%);
+          min-height: 80px;
         }
 
-        .navbar-scrolled {
+        .custom-navbar.loaded {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .custom-navbar.scrolled {
           background: rgba(5, 5, 5, 0.98) !important;
-          padding: 10px 0;
-          border-bottom: 1px solid rgba(199, 112, 240, 0.2);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          padding: 0.5rem 0 !important;
+          border-bottom-color: rgba(199, 112, 240, 0.3);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          min-height: 70px;
         }
 
-        /* Navbar Animation */
-        .animate-slide-down {
-          animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        /* Logo Styles */
+        .navbar-brand-custom {
+          display: flex !important;
+          align-items: center !important;
+          text-decoration: none !important;
+          z-index: 1001;
         }
 
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-100%);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* Logo Animations */
-        .brand-container {
-          position: relative;
+        .navbar-brand-custom:hover {
           text-decoration: none !important;
         }
 
-        .logo-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-          opacity: 0;
-        }
-
-        .animate-logo {
-          animation: logoFadeIn 1s ease-out 0.3s forwards;
-        }
-
-        @keyframes logoFadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.8) rotate(-10deg);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-          }
-        }
-
         .navbar-logo {
-          height: 45px;
-          width: auto;
-          transition: all 0.3s ease;
-          filter: brightness(1.1);
+          height: 45px !important;
+          width: auto !important;
+          transition: transform 0.3s ease !important;
         }
 
-        .navbar-scrolled .navbar-logo {
-          height: 40px;
+        .scrolled .navbar-logo {
+          height: 40px !important;
         }
 
-        .logo-glow {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 60px;
-          height: 60px;
-          background: radial-gradient(circle, rgba(199, 112, 240, 0.3), transparent);
-          border-radius: 50%;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .brand-container:hover .logo-glow {
-          opacity: 1;
-        }
-
-        .brand-container:hover .navbar-logo {
+        .navbar-brand-custom:hover .navbar-logo {
           transform: scale(1.05);
-          filter: brightness(1.3);
         }
 
         /* Custom Hamburger Toggle */
-        .custom-toggler {
-          border: none;
-          padding: 8px;
-          background: none;
-          outline: none;
+        .custom-toggle {
+          border: none !important;
+          background: none !important;
+          padding: 0 !important;
+          width: 40px !important;
+          height: 40px !important;
+          position: relative !important;
+          z-index: 1001 !important;
         }
 
-        .custom-toggler:focus {
-          box-shadow: none;
+        .custom-toggle:focus {
+          box-shadow: none !important;
+          outline: none !important;
         }
 
-        .hamburger {
+        .hamburger-menu {
+          width: 30px;
+          height: 24px;
+          position: relative;
+          cursor: pointer;
           display: flex;
           flex-direction: column;
-          width: 25px;
-          height: 20px;
           justify-content: space-between;
         }
 
-        .line {
-          width: 100%;
+        .bar {
           height: 3px;
+          width: 100%;
           background: #c770f0;
-          border-radius: 2px;
+          border-radius: 3px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           transform-origin: center;
         }
 
-        .hamburger.active .line-1 {
-          transform: rotate(45deg) translateY(8.5px);
+        .hamburger-menu.open .bar1 {
+          transform: rotate(45deg) translate(8px, 8px);
         }
 
-        .hamburger.active .line-2 {
+        .hamburger-menu.open .bar2 {
           opacity: 0;
           transform: scaleX(0);
         }
 
-        .hamburger.active .line-3 {
-          transform: rotate(-45deg) translateY(-8.5px);
+        .hamburger-menu.open .bar3 {
+          transform: rotate(-45deg) translate(7px, -7px);
         }
 
-        /* Navigation Items */
-        .nav-links {
-          align-items: center;
-          gap: 10px;
-        }
-
-        .nav-item-animated {
-          opacity: 0;
-        }
-
-        .animate-nav-items .nav-item-animated {
-          animation: navItemSlide 0.6s ease-out forwards;
-        }
-
-        @keyframes navItemSlide {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .nav-link-modern {
+        /* Navigation Links */
+        .nav-link-custom {
           display: flex !important;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 20px !important;
-          border-radius: 25px;
+          align-items: center !important;
+          gap: 8px !important;
+          padding: 0.8rem 1.2rem !important;
+          margin: 0 0.2rem !important;
+          border-radius: 25px !important;
           color: rgba(255, 255, 255, 0.8) !important;
           text-decoration: none !important;
-          font-weight: 500;
-          font-size: 0.95em;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          font-weight: 500 !important;
+          transition: all 0.3s ease !important;
+          position: relative !important;
+          overflow: hidden !important;
         }
 
-        .nav-link-modern::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(199, 112, 240, 0.1), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .nav-link-modern:hover::before {
-          left: 100%;
-        }
-
-        .nav-link-modern:hover {
+        .nav-link-custom:hover,
+        .nav-link-custom:focus {
           color: #c770f0 !important;
-          background: rgba(199, 112, 240, 0.1);
+          background: rgba(199, 112, 240, 0.1) !important;
+          text-decoration: none !important;
           transform: translateY(-2px);
         }
 
-        .nav-icon {
-          font-size: 1.2em;
-          transition: transform 0.3s ease;
+        .nav-link-custom.active {
+          color: #c770f0 !important;
+          background: rgba(199, 112, 240, 0.15) !important;
         }
 
-        .nav-link-modern:hover .nav-icon {
-          transform: scale(1.2);
+        .nav-icon {
+          font-size: 1.2em !important;
+          transition: transform 0.3s ease !important;
+        }
+
+        .nav-link-custom:hover .nav-icon {
+          transform: scale(1.1);
         }
 
         .nav-text {
-          transition: all 0.3s ease;
-        }
-
-        .nav-underline {
-          position: absolute;
-          bottom: 8px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #c770f0, #9c27b0);
-          border-radius: 1px;
-          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-link-modern:hover .nav-underline,
-        .nav-link-modern.active .nav-underline {
-          width: 80%;
+          font-size: 0.95em !important;
+          white-space: nowrap !important;
         }
 
         /* GitHub Button */
-        .animate-button {
-          animation: buttonBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        .github-nav-item {
+          margin-left: 1rem !important;
         }
 
-        @keyframes buttonBounce {
-          from {
-            opacity: 0;
-            transform: scale(0.3) rotate(10deg);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-          }
+        .github-button {
+          display: flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+          padding: 0.6rem 1.2rem !important;
+          background: linear-gradient(135deg, #c770f0, #9c27b0) !important;
+          border: none !important;
+          border-radius: 25px !important;
+          color: #ffffff !important;
+          font-weight: 600 !important;
+          font-size: 0.9em !important;
+          text-decoration: none !important;
+          transition: all 0.3s ease !important;
+          box-shadow: 0 4px 15px rgba(199, 112, 240, 0.3) !important;
         }
 
-        .github-btn {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 20px;
-          background: linear-gradient(135deg, #c770f0, #9c27b0);
-          border: none;
-          border-radius: 25px;
-          color: #ffffff;
-          font-weight: 600;
-          font-size: 0.9em;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 4px 15px rgba(199, 112, 240, 0.3);
+        .github-button:hover,
+        .github-button:focus {
+          transform: translateY(-2px) scale(1.05) !important;
+          box-shadow: 0 6px 20px rgba(199, 112, 240, 0.4) !important;
+          background: linear-gradient(135deg, #d580ff, #b040d0) !important;
+          color: #ffffff !important;
+          text-decoration: none !important;
         }
 
-        .github-btn:hover {
-          transform: translateY(-3px) scale(1.05);
-          box-shadow: 0 8px 25px rgba(199, 112, 240, 0.4);
-          background: linear-gradient(135deg, #d580ff, #b040d0);
-          color: #ffffff;
+        .github-icon {
+          font-size: 1.1em !important;
         }
 
-        .fork-icon,
-        .star-icon {
-          font-size: 1.1em;
-          transition: transform 0.3s ease;
-        }
-
-        .github-btn:hover .fork-icon {
-          transform: rotate(20deg);
-        }
-
-        .github-btn:hover .star-icon {
-          transform: scale(1.2);
-          animation: starTwinkle 0.6s ease;
-        }
-
-        @keyframes starTwinkle {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; transform: scale(1.4); }
-        }
-
-        .btn-shine {
-          position: absolute;
+        /* Mobile Overlay */
+        .mobile-overlay {
+          position: fixed;
           top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.6s ease;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 999;
+          display: none;
         }
 
-        .github-btn:hover .btn-shine {
-          left: 100%;
-        }
-
-        .btn-text {
-          font-weight: 600;
-          letter-spacing: 0.5px;
-        }
-
-        /* Responsive Design */
+        /* Mobile Responsive Styles */
         @media (max-width: 991.98px) {
-          .modern-navbar {
-            padding: 12px 0;
+          .custom-navbar {
+            padding: 0.8rem 0 !important;
           }
 
-          .nav-links {
-            background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(199, 112, 240, 0.1);
-            border-radius: 15px;
-            margin: 20px 0;
-            padding: 20px 0;
-            flex-direction: column;
-            gap: 5px;
+          .custom-navbar.scrolled {
+            padding: 0.6rem 0 !important;
           }
 
-          .nav-link-modern {
-            width: 90%;
-            margin: 0 auto;
-            justify-content: center;
+          /* Mobile Menu Overlay */
+          .mobile-overlay {
+            display: block !important;
           }
 
-          .github-btn {
-            margin: 10px auto 0 auto;
+          /* Mobile Navigation */
+          .navbar-collapse {
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            height: 100vh !important;
+            width: 280px !important;
+            max-width: 85vw !important;
+            background: rgba(10, 10, 10, 0.98) !important;
+            backdrop-filter: blur(25px) !important;
+            border-left: 1px solid rgba(199, 112, 240, 0.2) !important;
+            padding: 100px 20px 40px 20px !important;
+            transform: translateX(100%) !important;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            z-index: 1000 !important;
+            overflow-y: auto !important;
           }
 
-          .navbar-scrolled {
-            padding: 8px 0;
+          .navbar-collapse.show {
+            transform: translateX(0) !important;
+          }
+
+          .navbar-nav {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 15px !important;
+            width: 100% !important;
+          }
+
+          .nav-link-custom {
+            width: 100% !important;
+            padding: 1rem 1.5rem !important;
+            margin: 0 !important;
+            justify-content: flex-start !important;
+            font-size: 1.1em !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(199, 112, 240, 0.1) !important;
+            border-radius: 15px !important;
+          }
+
+          .nav-link-custom:hover,
+          .nav-link-custom:focus {
+            background: rgba(199, 112, 240, 0.15) !important;
+            border-color: rgba(199, 112, 240, 0.3) !important;
+            transform: none !important;
+          }
+
+          .nav-icon {
+            font-size: 1.4em !important;
+            margin-right: 8px !important;
+          }
+
+          .nav-text {
+            font-size: 1em !important;
+          }
+
+          .github-nav-item {
+            margin-left: 0 !important;
+            margin-top: 20px !important;
+            padding-top: 20px !important;
+            border-top: 1px solid rgba(199, 112, 240, 0.2) !important;
+          }
+
+          .github-button {
+            width: 100% !important;
+            padding: 1rem 1.5rem !important;
+            justify-content: center !important;
+            font-size: 1em !important;
+          }
+
+          .github-button:hover,
+          .github-button:focus {
+            transform: none !important;
           }
         }
 
         @media (max-width: 576px) {
           .navbar-logo {
-            height: 40px;
+            height: 35px !important;
           }
 
-          .navbar-scrolled .navbar-logo {
-            height: 35px;
+          .scrolled .navbar-logo {
+            height: 32px !important;
           }
 
-          .nav-link-modern {
-            padding: 10px 15px !important;
-            font-size: 0.9em;
+          .navbar-collapse {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            left: 0 !important;
+            right: 0 !important;
+            border-left: none !important;
+            padding: 80px 15px 30px 15px !important;
           }
 
-          .github-btn {
-            padding: 8px 16px;
-            font-size: 0.85em;
+          .nav-link-custom {
+            padding: 0.9rem 1.2rem !important;
+            font-size: 1rem !important;
+          }
+
+          .nav-icon {
+            font-size: 1.3em !important;
+          }
+
+          .github-button {
+            padding: 0.9rem 1.2rem !important;
+            font-size: 0.95em !important;
           }
         }
 
-        /* Accessibility */
+        /* Touch Optimization */
+        @media (hover: none) and (pointer: coarse) {
+          .nav-link-custom:hover {
+            transform: none !important;
+          }
+
+          .github-button:hover {
+            transform: none !important;
+          }
+
+          .navbar-brand-custom:hover .navbar-logo {
+            transform: none !important;
+          }
+        }
+
+        /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
           * {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
+            animation: none !important;
             transition-duration: 0.01ms !important;
           }
         }
+
+        /* High Contrast */
+        @media (prefers-contrast: high) {
+          .nav-link-custom {
+            border: 2px solid !important;
+          }
+          
+          .github-button {
+            border: 2px solid !important;
+          }
+        }
+
+        /* Fix for Bootstrap conflicts */
+        .navbar-toggler {
+          display: none !important;
+        }
+
+        @media (max-width: 991.98px) {
+          .navbar-expand-lg .navbar-collapse {
+            display: flex !important;
+          }
+          
+          .custom-toggle {
+            display: block !important;
+          }
+        }
       `}</style>
-    </Navbar>
+    </>
   );
 }
 

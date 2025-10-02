@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import myImg from "../../Assets/HomeTwoLogo/Home 2 Logo.svg";
 import Tilt from "react-parallax-tilt";
@@ -9,6 +9,67 @@ import {
 import { FaLinkedinIn } from "react-icons/fa";
 
 function Home2() {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [activeSocialIcon, setActiveSocialIcon] = useState(null);
+
+  useEffect(() => {
+    // Detect if device supports touch
+    const checkTouchDevice = () => {
+      return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+    };
+
+    setIsTouchDevice(checkTouchDevice());
+
+    // Also check via media query
+    const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)');
+    setIsTouchDevice(mediaQuery.matches);
+
+    const handleMediaQueryChange = (e) => {
+      setIsTouchDevice(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaQueryChange);
+    };
+  }, []);
+
+  // Handle social icon touch interactions
+  const handleSocialTouchStart = (iconName) => {
+    if (isTouchDevice) {
+      setActiveSocialIcon(iconName);
+    }
+  };
+
+  const handleSocialTouchEnd = () => {
+    if (isTouchDevice) {
+      setTimeout(() => setActiveSocialIcon(null), 150);
+    }
+  };
+
+  // Social media data
+  const socialLinks = [
+    {
+      name: 'github',
+      url: 'https://github.com/ppaarxx',
+      icon: <AiFillGithub />,
+      label: 'GitHub'
+    },
+    {
+      name: 'twitter',
+      url: 'https://twitter.com/__parxx__',
+      icon: <AiOutlineTwitter />,
+      label: 'Twitter'
+    },
+    {
+      name: 'linkedin',
+      url: 'https://www.linkedin.com/in/parth-puri-004157225/',
+      icon: <FaLinkedinIn />,
+      label: 'LinkedIn'
+    }
+  ];
+
   return (
     <Container fluid className="home-about-section" id="about">
       <Container>
@@ -28,7 +89,7 @@ function Home2() {
               position: "relative"
             }}>
               <h1 style={{ 
-                fontSize: "2.8em",
+                fontSize: "clamp(2rem, 5vw, 2.8rem)",
                 fontWeight: "700",
                 background: "linear-gradient(135deg, #ffffff 0%, #c770f0 50%, #ffffff 100%)",
                 WebkitBackgroundClip: "text",
@@ -71,7 +132,7 @@ function Home2() {
               backdropFilter: "blur(15px)",
               border: "1px solid rgba(199, 112, 240, 0.15)",
               borderRadius: "24px",
-              padding: "45px 40px",
+              padding: "clamp(30px, 5vw, 45px) clamp(25px, 4vw, 40px)",
               position: "relative",
               overflow: "hidden",
               boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
@@ -89,7 +150,7 @@ function Home2() {
 
               {/* Content with better spacing */}
               <p className="home-about-body" style={{
-                fontSize: "1.12em",
+                fontSize: "clamp(1rem, 2vw, 1.12rem)",
                 lineHeight: "1.8",
                 color: "rgba(255, 255, 255, 0.92)",
                 marginBottom: "0"
@@ -131,12 +192,12 @@ function Home2() {
               background: "rgba(199, 112, 240, 0.08)",
               border: "1px solid rgba(199, 112, 240, 0.2)",
               borderRadius: "20px",
-              padding: "30px 35px",
+              padding: "clamp(25px, 4vw, 30px) clamp(25px, 4vw, 35px)",
               position: "relative",
               boxShadow: "0 4px 20px rgba(199, 112, 240, 0.1)"
             }}>
               <p className="home-about-body" style={{
-                fontSize: "1.08em",
+                fontSize: "clamp(1rem, 2vw, 1.08rem)",
                 lineHeight: "1.75",
                 color: "rgba(255, 255, 255, 0.88)",
                 marginBottom: "0"
@@ -153,13 +214,14 @@ function Home2() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            position: "relative"
+            position: "relative",
+            padding: "20px"
           }}>
             {/* Enhanced Avatar Background Glow */}
             <div style={{
               position: "absolute",
-              width: "320px",
-              height: "320px",
+              width: "clamp(250px, 40vw, 320px)",
+              height: "clamp(250px, 40vw, 320px)",
               background: "radial-gradient(circle, rgba(199, 112, 240, 0.2) 0%, rgba(199, 112, 240, 0.1) 40%, transparent 70%)",
               borderRadius: "50%",
               filter: "blur(50px)",
@@ -167,16 +229,16 @@ function Home2() {
             }}></div>
 
             <Tilt
-              tiltMaxAngleX={12}
-              tiltMaxAngleY={12}
+              tiltMaxAngleX={isTouchDevice ? 0 : 12}
+              tiltMaxAngleY={isTouchDevice ? 0 : 12}
               perspective={1000}
-              scale={1.08}
+              scale={isTouchDevice ? 1 : 1.08}
               transitionSpeed={2200}
-              glareEnable={true}
+              glareEnable={!isTouchDevice}
               glareMaxOpacity={0.2}
               glareColor="#c770f0"
             >
-              <div style={{
+              <div className="avatar-container" style={{
                 padding: "25px",
                 background: "rgba(255, 255, 255, 0.05)",
                 border: "1px solid rgba(199, 112, 240, 0.25)",
@@ -190,7 +252,9 @@ function Home2() {
                   alt="avatar"
                   style={{
                     filter: "drop-shadow(0px 12px 35px rgba(199, 112, 240, 0.4))",
-                    transition: "all 0.4s ease"
+                    transition: "all 0.4s ease",
+                    maxWidth: "100%",
+                    height: "auto"
                   }}
                 />
               </div>
@@ -198,7 +262,7 @@ function Home2() {
           </Col>
         </Row>
 
-        {/* Enhanced Social Section */}
+        {/* Enhanced Social Section with Touch Support */}
         <Row style={{ marginTop: "100px", marginBottom: "60px" }}>
           <Col md={12} className="home-about-social">
             <div className="social-section" style={{
@@ -207,7 +271,7 @@ function Home2() {
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(199, 112, 240, 0.15)",
               borderRadius: "30px",
-              padding: "60px 50px",
+              padding: "clamp(40px, 6vw, 60px) clamp(30px, 5vw, 50px)",
               position: "relative",
               overflow: "hidden",
               boxShadow: "0 12px 40px rgba(0, 0, 0, 0.3)"
@@ -228,7 +292,7 @@ function Home2() {
               }}></div>
 
               <h1 style={{
-                fontSize: "2.4em",
+                fontSize: "clamp(1.8rem, 4vw, 2.4rem)",
                 fontWeight: "700",
                 marginBottom: "25px",
                 background: "linear-gradient(135deg, #ffffff 0%, #c770f0 100%)",
@@ -241,103 +305,65 @@ function Home2() {
               </h1>
               
               <p style={{
-                fontSize: "1.18em",
+                fontSize: "clamp(1rem, 2.5vw, 1.18rem)",
                 marginBottom: "45px",
                 color: "rgba(255, 255, 255, 0.85)"
               }}>
                 Let's collaborate on <span className="purple">AI-driven innovation</span>
               </p>
 
+              {/* Enhanced Social Links with Touch Support */}
               <ul className="home-about-social-links" style={{
                 display: "flex",
                 justifyContent: "center",
-                gap: "35px",
+                gap: "clamp(25px, 5vw, 35px)",
                 listStyle: "none",
                 padding: 0,
-                margin: 0
+                margin: 0,
+                flexWrap: "wrap"
               }}>
-                <li className="social-icons">
-                  <a
-                    href="https://github.com/ppaarxx"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="icon-colour home-social-icons enhanced-social-icon"
-                    aria-label="GitHub"
-                    style={{
-                      fontSize: "2.2em",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "75px",
-                      height: "75px",
-                      background: "rgba(199, 112, 240, 0.12)",
-                      border: "2px solid rgba(199, 112, 240, 0.3)",
-                      borderRadius: "22px",
-                      color: "#ffffff",
-                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      backdropFilter: "blur(15px)"
-                    }}
-                  >
-                    <AiFillGithub />
-                  </a>
-                </li>
-                <li className="social-icons">
-                  <a
-                    href="https://twitter.com/__parxx__"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="icon-colour home-social-icons enhanced-social-icon"
-                    aria-label="Twitter"
-                    style={{
-                      fontSize: "2.2em",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "75px",
-                      height: "75px",
-                      background: "rgba(199, 112, 240, 0.12)",
-                      border: "2px solid rgba(199, 112, 240, 0.3)",
-                      borderRadius: "22px",
-                      color: "#ffffff",
-                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      backdropFilter: "blur(15px)"
-                    }}
-                  >
-                    <AiOutlineTwitter />
-                  </a>
-                </li>
-                <li className="social-icons">
-                  <a
-                    href="https://www.linkedin.com/in/parth-puri-004157225/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="icon-colour home-social-icons enhanced-social-icon"
-                    aria-label="LinkedIn"
-                    style={{
-                      fontSize: "2.2em",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "75px",
-                      height: "75px",
-                      background: "rgba(199, 112, 240, 0.12)",
-                      border: "2px solid rgba(199, 112, 240, 0.3)",
-                      borderRadius: "22px",
-                      color: "#ffffff",
-                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      backdropFilter: "blur(15px)"
-                    }}
-                  >
-                    <FaLinkedinIn />
-                  </a>
-                </li>
+                {socialLinks.map((social, index) => (
+                  <li key={social.name} className="social-icons">
+                    <a
+                      href={social.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`icon-colour home-social-icons enhanced-social-icon ${
+                        activeSocialIcon === social.name ? 'touch-active' : ''
+                      }`}
+                      aria-label={social.label}
+                      onTouchStart={() => handleSocialTouchStart(social.name)}
+                      onTouchEnd={handleSocialTouchEnd}
+                      onMouseLeave={() => setActiveSocialIcon(null)}
+                      style={{
+                        fontSize: "clamp(1.8rem, 4vw, 2.2rem)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "clamp(65px, 12vw, 75px)",
+                        height: "clamp(65px, 12vw, 75px)",
+                        background: "rgba(199, 112, 240, 0.12)",
+                        border: "2px solid rgba(199, 112, 240, 0.3)",
+                        borderRadius: "22px",
+                        color: "#ffffff",
+                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                        backdropFilter: "blur(15px)",
+                        touchAction: "manipulation",
+                        userSelect: "none",
+                        WebkitTapHighlightColor: "transparent"
+                      }}
+                    >
+                      {social.icon}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </Col>
         </Row>
       </Container>
 
-      {/* Enhanced CSS Styles */}
+      {/* Enhanced CSS Styles with Touch Device Support */}
       <style jsx>{`
         /* Floating Background Shapes */
         .floating-shapes {
@@ -354,8 +380,8 @@ function Home2() {
           position: absolute;
           top: 8%;
           right: 12%;
-          width: 140px;
-          height: 140px;
+          width: clamp(100px, 15vw, 140px);
+          height: clamp(100px, 15vw, 140px);
           background: linear-gradient(135deg, rgba(199, 112, 240, 0.12), rgba(156, 39, 176, 0.12));
           border-radius: 50%;
           animation: float-1 10s ease-in-out infinite;
@@ -365,8 +391,8 @@ function Home2() {
           position: absolute;
           bottom: 15%;
           left: 8%;
-          width: 100px;
-          height: 100px;
+          width: clamp(80px, 12vw, 100px);
+          height: clamp(80px, 12vw, 100px);
           background: linear-gradient(135deg, rgba(0, 212, 255, 0.12), rgba(199, 112, 240, 0.12));
           border-radius: 30%;
           animation: float-2 8s ease-in-out infinite reverse;
@@ -376,8 +402,8 @@ function Home2() {
           position: absolute;
           top: 55%;
           right: 3%;
-          width: 80px;
-          height: 80px;
+          width: clamp(60px, 10vw, 80px);
+          height: clamp(60px, 10vw, 80px);
           background: linear-gradient(135deg, rgba(199, 112, 240, 0.18), transparent);
           border-radius: 20%;
           animation: float-3 12s ease-in-out infinite;
@@ -404,68 +430,163 @@ function Home2() {
           50% { opacity: 1; transform: scale(1.08); }
         }
 
-        /* Enhanced Social Icons */
-        .enhanced-social-icon:hover {
-          transform: translateY(-8px) scale(1.15);
-          background: rgba(199, 112, 240, 0.25) !important;
-          border-color: rgba(199, 112, 240, 0.7) !important;
-          box-shadow: 0 15px 40px rgba(199, 112, 240, 0.4);
-          color: #c770f0 !important;
+        /* Enhanced Social Icons with Touch Support */
+        .enhanced-social-icon {
+          position: relative;
+          overflow: hidden;
         }
 
-        /* Avatar Enhancement */
-        .avatar-enhanced:hover {
-          filter: drop-shadow(0px 20px 50px rgba(199, 112, 240, 0.7)) !important;
-          transform: scale(1.08);
+        /* Hover effects only for non-touch devices */
+        @media (hover: hover) and (pointer: fine) {
+          .enhanced-social-icon:hover {
+            transform: translateY(-8px) scale(1.15);
+            background: rgba(199, 112, 240, 0.25) !important;
+            border-color: rgba(199, 112, 240, 0.7) !important;
+            box-shadow: 0 15px 40px rgba(199, 112, 240, 0.4);
+            color: #c770f0 !important;
+          }
+
+          .content-wrapper:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(199, 112, 240, 0.25);
+            transform: translateY(-4px);
+            transition: all 0.4s ease;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+          }
+
+          .secondary-content:hover {
+            background: rgba(199, 112, 240, 0.12);
+            border-color: rgba(199, 112, 240, 0.35);
+            transform: translateY(-4px);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 30px rgba(199, 112, 240, 0.2);
+          }
+
+          .avatar-enhanced:hover {
+            filter: drop-shadow(0px 20px 50px rgba(199, 112, 240, 0.7)) !important;
+            transform: scale(1.08);
+          }
         }
 
-        /* Content Cards Enhanced Hover Effect */
-        .content-wrapper:hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: rgba(199, 112, 240, 0.25);
-          transform: translateY(-4px);
-          transition: all 0.4s ease;
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        /* Touch device specific styles */
+        @media (hover: none) and (pointer: coarse) {
+          .enhanced-social-icon:active,
+          .enhanced-social-icon.touch-active {
+            transform: scale(0.95);
+            background: rgba(199, 112, 240, 0.3) !important;
+            border-color: rgba(199, 112, 240, 0.8) !important;
+            color: #c770f0 !important;
+            box-shadow: 0 5px 20px rgba(199, 112, 240, 0.4);
+            transition: all 0.1s ease;
+          }
+
+          .content-wrapper:active {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(199, 112, 240, 0.3);
+            transition: all 0.1s ease;
+          }
+
+          .secondary-content:active {
+            background: rgba(199, 112, 240, 0.15);
+            border-color: rgba(199, 112, 240, 0.4);
+            transition: all 0.1s ease;
+          }
+
+          /* Disable tilt animations on touch devices */
+          .avatar-container {
+            transform: none !important;
+          }
         }
 
-        .secondary-content:hover {
-          background: rgba(199, 112, 240, 0.12);
-          border-color: rgba(199, 112, 240, 0.35);
-          transform: translateY(-4px);
-          transition: all 0.4s ease;
-          box-shadow: 0 8px 30px rgba(199, 112, 240, 0.2);
+        /* Enhanced touch feedback */
+        .enhanced-social-icon::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          background: rgba(199, 112, 240, 0.3);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          transition: all 0.3s ease;
+        }
+
+        .enhanced-social-icon:active::before,
+        .enhanced-social-icon.touch-active::before {
+          width: 100%;
+          height: 100%;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-          .shape-1, .shape-2, .shape-3 { display: none; }
+          .shape-1, .shape-2, .shape-3 { 
+            opacity: 0.5;
+          }
           
           .content-wrapper, .secondary-content {
-            margin: 20px 10px;
-            padding: 30px 25px;
+            margin: 20px 0;
           }
           
           .social-section {
-            margin: 20px 10px;
-            padding: 50px 25px;
+            margin: 20px 0;
           }
           
           .home-about-social-links {
-            gap: 25px !important;
+            gap: 20px !important;
+            justify-content: space-around !important;
           }
           
           .enhanced-social-icon {
-            width: 65px !important;
-            height: 65px !important;
-            font-size: 1.9em !important;
+            width: 60px !important;
+            height: 60px !important;
+            font-size: 1.6em !important;
+            border-radius: 18px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .shape-1, .shape-2, .shape-3 { 
+            display: none; 
+          }
+
+          .home-about-social-links {
+            gap: 15px !important;
           }
           
-          .section-header h1 {
-            fontSize: 2.2em !important;
+          .enhanced-social-icon {
+            width: 55px !important;
+            height: 55px !important;
+            font-size: 1.4em !important;
+          }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+          .enhanced-social-icon {
+            border-width: 3px !important;
+          }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+          .shape-1, .shape-2, .shape-3 {
+            animation: none !important;
+          }
+          
+          .enhanced-social-icon {
+            transition: none !important;
+          }
+          
+          * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
           }
         }
       `}</style>
     </Container>
   );
 }
+
 export default Home2;
