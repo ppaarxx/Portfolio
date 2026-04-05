@@ -1,18 +1,42 @@
 import { useCallback, useRef } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useSpring, useTransform } from "framer-motion";
 import { experienceItems } from "../constants/data";
+import useScrubStyle from "../hooks/useScrubStyle";
+import useSectionScrollTimeline from "../hooks/useSectionScrollTimeline";
 import { resetTiltEffect, updateTiltEffect } from "../utils/cardEffects";
-import { fadeUp } from "../utils/motion";
+import { mapScrubToSettle } from "../utils/scrollMotion";
 import SectionHeading from "./SectionHeading";
 import SectionLabel from "./SectionLabel";
 
 const Experience = ({ isMobile }) => {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start center", "end center"],
+  const { progress, isActiveZone, isSettled, reducedMotion } = useSectionScrollTimeline({
+    targetRef: sectionRef,
+    pin: false,
+    offsets: ["start center", "end center"],
   });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 28 });
+  const settleProgress = useTransform(progress, (value) =>
+    mapScrubToSettle(value, { settleStart: 0.4, settleEnd: 0.72 }).alignProgress
+  );
+  const headingMotion = useScrubStyle(progress, {
+    entryStart: 0,
+    settleStart: 0.34,
+    settleEnd: 0.64,
+    fromX: -16,
+    fromY: 20,
+    fromScale: 0.986,
+    fromRotateX: -3,
+  });
+  const timelineMotion = useScrubStyle(progress, {
+    entryStart: 0.08,
+    settleStart: 0.44,
+    settleEnd: 0.76,
+    fromY: 36,
+    fromScale: 0.97,
+    fromRotateX: -4,
+    fromOpacity: 0.84,
+  });
+  const scaleY = useSpring(progress, { stiffness: 120, damping: 28 });
 
   const handleMove = useCallback(
     (event) => {
@@ -33,11 +57,20 @@ const Experience = ({ isMobile }) => {
   );
 
   return (
-    <section ref={sectionRef} id="experience" className="experience-section section-shell">
+    <motion.section
+      ref={sectionRef}
+      id="experience"
+      className={`experience-section section-shell scrub-section ${
+        isActiveZone ? "is-active-zone" : ""
+      } ${isSettled ? "is-settled" : ""}`}
+      style={{ "--scrub-settle-progress": reducedMotion ? 1 : settleProgress }}
+    >
       <div className="section-container">
-        <SectionLabel index="03" title="experience" />
-        <SectionHeading text="Experience" />
-        <div className="timeline-shell">
+        <motion.div style={reducedMotion ? undefined : headingMotion.style}>
+          <SectionLabel index="03" title="experience" />
+          <SectionHeading text="Experience" />
+        </motion.div>
+        <motion.div className="timeline-shell" style={reducedMotion ? undefined : timelineMotion.style}>
           <div className="timeline-line">
             <span className="timeline-line-base" />
             <motion.span className="timeline-line-fill" style={{ scaleY }} />
@@ -48,11 +81,10 @@ const Experience = ({ isMobile }) => {
               <motion.article
                 key={`${item.company}-${item.period}`}
                 className="timeline-item"
-                variants={fadeUp}
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.08 }}
-                viewport={{ once: true, amount: 0.25 }}
+                viewport={{ once: true, amount: 0.2 }}
               >
                 <span className="timeline-dot" />
                 <div
@@ -80,9 +112,9 @@ const Experience = ({ isMobile }) => {
               </motion.article>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

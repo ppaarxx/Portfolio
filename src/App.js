@@ -3,6 +3,7 @@ import Lenis from "lenis";
 import "./App.css";
 import { sectionOrder, siteMeta } from "./constants/data";
 import useScrollProgress from "./hooks/useScrollProgress";
+import useScrollVelocity from "./hooks/useScrollVelocity";
 import { getIsMobile } from "./utils/device";
 import SEO from "./components/SEO.jsx";
 import Loader from "./components/Loader.jsx";
@@ -23,6 +24,10 @@ function App() {
   const [isMobile, setIsMobile] = useState(getIsMobile());
   const lenisRef = useRef(null);
   const { activeSection, scrollProgress } = useScrollProgress(sectionOrder);
+  const { normalizedVelocity, signedNormalizedVelocity } = useScrollVelocity({
+    smoothing: 0.18,
+    maxVelocity: 2.6,
+  });
   const updateDevice = useCallback(() => setIsMobile(getIsMobile()), []);
 
   useEffect(() => {
@@ -64,6 +69,17 @@ function App() {
     return () => document.body.classList.remove("is-loading");
   }, [isLoading]);
 
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--scroll-velocity",
+      normalizedVelocity.toFixed(4)
+    );
+    document.documentElement.style.setProperty(
+      "--scroll-signed-velocity",
+      signedNormalizedVelocity.toFixed(4)
+    );
+  }, [normalizedVelocity, signedNormalizedVelocity]);
+
   const scrollToSection = useCallback((id, offset = -96) => {
     const target = document.getElementById(id);
 
@@ -79,7 +95,11 @@ function App() {
       <SEO meta={siteMeta} />
       <Loader show={isLoading} />
       <CustomCursor enabled={!isMobile} />
-      <GlobalBackground activeSection={activeSection} isMobile={isMobile} />
+      <GlobalBackground
+        activeSection={activeSection}
+        scrollProgress={scrollProgress}
+        isMobile={isMobile}
+      />
       <div className="noise-overlay" aria-hidden="true" />
       <Navbar
         activeSection={activeSection}

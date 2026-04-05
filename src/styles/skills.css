@@ -5,6 +5,22 @@
   gap: 24px;
 }
 
+.skills-section.pin-shell {
+  min-height: 132vh;
+}
+
+.skills-pin-stage {
+  display: flex;
+  align-items: center;
+  padding-top: 92px;
+  padding-bottom: 28px;
+}
+
+.skills-no-pin-stage {
+  position: relative;
+  min-height: auto;
+}
+
 .skill-orb-shell {
   width: 200px;
   height: 200px;
@@ -97,6 +113,11 @@
   .skills-header-row {
     justify-items: start;
   }
+
+  .skills-pin-stage {
+    padding-top: 102px;
+    padding-bottom: 16px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -105,4 +126,3 @@
     height: 150px;
   }
 }
-

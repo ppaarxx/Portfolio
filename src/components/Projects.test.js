@@ -51,8 +51,12 @@ describe("Projects", () => {
 
     render(<Projects isMobile />);
 
+    expect(document.querySelector("#projects.pin-shell.scrub-section")).toBeInTheDocument();
+    expect(document.querySelector("#projects .pin-stage")).toBeInTheDocument();
     expect(document.querySelector(".projects-grid")).toBeInTheDocument();
     expect(document.querySelector(".projects-rail")).not.toBeInTheDocument();
+    expect(document.querySelector(".projects-grid").style.filter).toBe("");
+    expect(document.querySelector("#projects").style.filter).toBe("");
     expect(
       await screen.findByText(/live repositories from github\.com\/ppaarxx/i)
     ).toBeInTheDocument();

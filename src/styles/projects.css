@@ -2,6 +2,22 @@
   position: relative;
 }
 
+.projects-section.pin-shell {
+  min-height: 136vh;
+}
+
+.projects-pin-stage {
+  display: flex;
+  align-items: center;
+  padding-top: 92px;
+  padding-bottom: 36px;
+}
+
+.projects-no-pin-stage {
+  position: relative;
+  min-height: auto;
+}
+
 .projects-heading-row {
   display: flex;
   align-items: flex-end;
@@ -180,5 +196,9 @@
     flex-direction: column;
     align-items: flex-start;
   }
-}
 
+  .projects-pin-stage {
+    padding-top: 102px;
+    padding-bottom: 20px;
+  }
+}

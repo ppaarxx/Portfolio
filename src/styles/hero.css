@@ -1,8 +1,24 @@
 .hero-section {
   min-height: 100vh;
+  display: block;
+  padding-top: 0;
+}
+
+.hero-section.pin-shell {
+  min-height: 138vh;
+}
+
+.hero-pin-stage {
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  padding-top: 140px;
+  padding-top: 96px;
+  position: sticky;
+}
+
+.hero-no-pin-stage {
+  position: relative;
+  min-height: auto;
 }
 
 .hero-stars-layer {
@@ -259,8 +275,8 @@
 }
 
 @media (max-width: 767px) {
-  .hero-section {
-    padding-top: 120px;
+  .hero-pin-stage {
+    padding-top: 106px;
   }
 
   .hero-actions {

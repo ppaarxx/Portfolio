@@ -3,6 +3,8 @@
   min-height: 100vh;
   isolation: isolate;
   overflow: hidden;
+  --scroll-velocity: 0;
+  --scroll-signed-velocity: 0;
 }
 
 .global-background {
@@ -96,7 +98,31 @@
 
 .section-shell {
   position: relative;
-  padding: 120px 0;
+  padding: 96px 0;
+}
+
+.scrub-section {
+  --scrub-settle-progress: 0;
+}
+
+.scrub-section.is-active-zone .section-heading {
+  letter-spacing: calc(-0.05em + (var(--scrub-settle-progress) * -0.01em));
+}
+
+.scrub-section.is-settled .card {
+  border-color: rgba(120, 141, 179, 0.36);
+}
+
+.pin-shell {
+  min-height: 128vh;
+  padding: 0;
+}
+
+.pin-stage {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  display: block;
 }
 
 .section-container {
@@ -145,6 +171,8 @@
   overflow: hidden;
   transform-style: preserve-3d;
   border: 1px solid var(--color-border);
+  translate: 0 calc(var(--scroll-signed-velocity, 0) * -2.5px);
+  transition: border-color 0.3s ease, translate 0.25s ease;
 }
 
 .card::after {
@@ -157,7 +185,7 @@
     rgba(255, 255, 255, 0.08),
     transparent 60%
   );
-  opacity: 0;
+  opacity: calc(0 + (var(--scroll-velocity, 0) * 0.08));
   transition: opacity 0.3s ease;
 }
 
@@ -205,7 +233,11 @@ body.menu-open {
   }
 
   .section-shell {
-    padding: 88px 0;
+    padding: 72px 0;
+  }
+
+  .pin-shell {
+    min-height: 116vh;
   }
 
   .section-container {

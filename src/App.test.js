@@ -43,4 +43,10 @@ test("renders the portfolio hero content", async () => {
   expect(await screen.findByRole("button", { name: /view my work/i })).toBeInTheDocument();
   expect(await screen.findByText(/let's build something/i)).toBeInTheDocument();
   expect(screen.queryByText(/currently learning/i)).not.toBeInTheDocument();
+  expect(document.querySelector("#home.pin-shell")).toBeInTheDocument();
+  expect(document.querySelector("#projects.pin-shell")).toBeInTheDocument();
+  expect(document.querySelector("#skills.pin-shell")).toBeInTheDocument();
+  expect(document.querySelector("#home .pin-stage")).toBeInTheDocument();
+  expect(document.querySelector("#projects .pin-stage")).toBeInTheDocument();
+  expect(document.querySelector("#skills .pin-stage")).toBeInTheDocument();
 });
