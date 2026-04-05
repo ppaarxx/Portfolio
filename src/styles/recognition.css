@@ -1,0 +1,87 @@
+.recognition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.recognition-column {
+  display: grid;
+  gap: 16px;
+}
+
+.recognition-column-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+  font-family: "Syne", sans-serif;
+  font-size: 1.1rem;
+}
+
+.award-card,
+.education-card,
+.certifications-card {
+  border-radius: 22px;
+  background: var(--color-surface);
+  padding: 20px;
+}
+
+.award-card {
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(180deg, var(--color-primary), var(--color-secondary)) 1;
+}
+
+.award-card h3,
+.education-card h3 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+}
+
+.award-card p,
+.education-card p,
+.education-card span,
+.certifications-card li {
+  color: var(--color-muted-strong);
+}
+
+.education-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.education-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  color: var(--color-secondary);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+}
+
+.education-card a {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--color-secondary);
+}
+
+.education-card.is-highlighted {
+  background:
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    linear-gradient(135deg, var(--color-primary), var(--color-secondary)) border-box;
+  border: 1px solid transparent;
+}
+
+.certifications-card ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .recognition-grid {
+    grid-template-columns: 1fr;
+  }
+}

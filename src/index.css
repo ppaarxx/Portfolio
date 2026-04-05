@@ -1,8 +1,69 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap");
+:root {
+  --color-bg: #020306;
+  --color-surface: #0b0f17;
+  --color-surface-soft: rgba(11, 15, 23, 0.88);
+  --color-surface-glass: rgba(255, 255, 255, 0.03);
+  --color-primary: #4f5f79;
+  --color-secondary: #667994;
+  --color-tertiary: #8896ac;
+  --color-text: #f1f5f9;
+  --color-muted: #64748b;
+  --color-muted-strong: #97a5bb;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(103, 122, 158, 0.34);
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.55);
+  --gradient-primary: linear-gradient(135deg, #4f5f79 0%, #667994 100%);
+  --gradient-accent: linear-gradient(135deg, #3f516d 0%, #647791 100%);
+  --gradient-shimmer: linear-gradient(90deg, #4f5f79, #667994, #8896ac, #4f5f79);
+}
+
+* {
+  box-sizing: border-box;
+  cursor: none;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
 body {
   margin: 0;
-  font-family: "Raleway", serif !important;
+  font-family: "DM Sans", sans-serif;
+  color: var(--color-text);
+  background:
+    radial-gradient(circle at 14% 12%, rgba(79, 95, 121, 0.14), transparent 38%),
+    radial-gradient(circle at 86% 28%, rgba(102, 121, 148, 0.1), transparent 42%),
+    var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: linear-gradient(to left, rgb(27 20 41), rgb(20 15 35));
+}
+
+body.is-loading {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(102, 121, 148, 0.35);
+  color: var(--color-tertiary);
 }

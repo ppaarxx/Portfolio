@@ -1,0 +1,238 @@
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.global-background {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 16% 14%, var(--bg-tone-a), transparent 48%),
+    radial-gradient(circle at 84% 18%, var(--bg-tone-b), transparent 42%),
+    radial-gradient(circle at 54% 82%, var(--bg-tone-c), transparent 46%),
+    #020306;
+  transition: background 0.7s ease;
+}
+
+.global-canvas-layer {
+  position: absolute;
+  inset: -8%;
+  filter: saturate(90%);
+}
+
+.global-canvas-layer canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.global-gradient-layer {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  filter: blur(120px);
+  mix-blend-mode: screen;
+  opacity: 0.2;
+}
+
+.global-gradient-layer.layer-one {
+  background:
+    radial-gradient(circle at 20% 20%, var(--bg-tone-a), transparent 55%),
+    radial-gradient(circle at 65% 40%, var(--bg-tone-b), transparent 65%);
+  animation: mesh-drift-one 16s ease-in-out infinite alternate;
+}
+
+.global-gradient-layer.layer-two {
+  background:
+    radial-gradient(circle at 70% 60%, var(--bg-tone-c), transparent 56%),
+    radial-gradient(circle at 35% 72%, var(--bg-tone-b), transparent 64%);
+  animation: mesh-drift-two 18s ease-in-out infinite alternate;
+}
+
+.global-grid-layer {
+  position: absolute;
+  inset: 0;
+  opacity: calc(0.04 + (var(--bg-strength, 0.5) * 0.03));
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle at 50% 30%, black, transparent 74%);
+}
+
+.global-reduced-motion-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 22% 24%, var(--bg-tone-a), transparent 50%),
+    radial-gradient(circle at 78% 66%, var(--bg-tone-b), transparent 52%);
+}
+
+.page-shell {
+  position: relative;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.page-shell.is-ready {
+  opacity: 1;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 240px 240px;
+}
+
+.section-shell {
+  position: relative;
+  padding: 120px 0;
+}
+
+.section-container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: var(--color-muted-strong);
+}
+
+.section-label-line {
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+}
+
+.section-heading-clip {
+  display: inline-block;
+}
+
+.section-heading {
+  margin: 0 0 24px;
+  font-family: "Syne", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.section-heading-char {
+  display: inline-block;
+}
+
+.card {
+  --glare-x: 50%;
+  --glare-y: 50%;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  border: 1px solid var(--color-border);
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x) var(--glare-y),
+    rgba(255, 255, 255, 0.08),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes mesh-drift-one {
+  from {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(6%, 4%, 0) scale(1.08);
+  }
+}
+
+@keyframes mesh-drift-two {
+  from {
+    transform: translate3d(5%, -2%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(-6%, 5%, 0) scale(1.1);
+  }
+}
+
+@media (max-width: 767px) {
+  * {
+    cursor: auto;
+  }
+
+  .section-shell {
+    padding: 88px 0;
+  }
+
+  .section-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .section-heading {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .global-canvas-layer {
+    inset: -16%;
+    filter: saturate(108%);
+  }
+
+  .global-grid-layer {
+    background-size: 42px 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

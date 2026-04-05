@@ -1,0 +1,46 @@
+.cursor-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-shell.is-visible {
+  opacity: 1;
+}
+
+.cursor-dot,
+.cursor-ring,
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 999px;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  transition: transform 80ms ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.cursor-ring.is-hovering {
+  border-color: var(--color-secondary);
+  mix-blend-mode: difference;
+}
+
+.cursor-glow {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.18), transparent 65%);
+  transition: transform 150ms ease;
+}
