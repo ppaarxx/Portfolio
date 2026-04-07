@@ -86,16 +86,6 @@ function Projects() {
       category: "AI/ML"
     },
     {
-      id: "face-landmarks",
-      imgPath: Prediction,
-      isBlog: false,
-      title: "Face Landmarks Detection and Prediction",
-      description: "Advanced facial recognition system using multi-model pipeline for face detection, landmark prediction, and facial expression analysis. Implements state-of-the-art computer vision techniques for real-time face processing and feature extraction.",
-      ghLink: "https://github.com/ppaarxx/Face-Landmarks-Detection-and-Face-Landmarks-Prediction",
-      technologies: ["Python", "TensorFlow", "Computer Vision", "Deep Learning"],
-      category: "AI/ML"
-    },
-    {
       id: "portfolio",
       imgPath: pf,
       isBlog: false,
@@ -114,16 +104,6 @@ function Projects() {
       ghLink: "https://github.com/ppaarxx/Linked-In-Clone",
       technologies: ["React", "Redux", "Firebase", "Styled-Components"],
       category: "Web Development"
-    },
-    {
-      id: "data-science",
-      imgPath: DS,
-      isBlog: false,
-      title: "Data Science Internship Projects",
-      description: "Comprehensive collection of data science projects covering data processing, statistical analysis, machine learning modeling, and insights generation. Demonstrates expertise in data-driven decision making and advanced analytics techniques.",
-      ghLink: "https://github.com/ppaarxx/DS",
-      technologies: ["Python", "Pandas", "NumPy", "Scikit-learn", "Matplotlib"],
-      category: "Data Science"
     },
     {
       id: "agro-tec",

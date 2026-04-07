@@ -183,7 +183,7 @@ export const skillGroups = [
 export const awards = [
   {
     title: "Best Team Award (Team AI)",
-    organization: "Verdantis / Zycus",
+    organization: "Ultria / Verdantis",
     year: "2025",
   },
   {
